@@ -1,5 +1,8 @@
 {
+  "cleanUrls": true,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "vite"
+  "framework": "vite",
+  "ignoreCommand": "echo 'Clearing cache'",
+  "installCommand": "npm install --force"
 }
