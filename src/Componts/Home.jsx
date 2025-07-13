@@ -3,30 +3,18 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { FaUser, FaStar, FaTrophy, FaPlay, FaChevronRight } from 'react-icons/fa';
 import { IoIosArrowForward } from 'react-icons/io';
 import './styles.css';
-import codingVideo from '../assets/quizbg.mp4'; // Replace with your video file
-import codingBgImage from '../assets/quizbg.mp4'; // Fallback image
+import backgroundSVG from '../assets/bg-shape.svg';
+import codingVideo from '../assets/coding.mp4'; // ✅ Correct video import
 
 const subjects = [
   { label: 'JavaScript', value: 'code', icon: '💻', color: '#4361ee' },
-  // { label: 'TypeScript', value: 'typescript', icon: '📘', color: '#007acc' },
   { label: 'React.js', value: 'react', icon: '⚛️', color: '#61dafb' },
-  // { label: 'Node.js', value: 'node', icon: '🌿', color: '#68a063' },
-  // { label: 'Express.js', value: 'express', icon: '🚀', color: '#444' },
-  // { label: 'MongoDB', value: 'mongodb', icon: '🍃', color: '#4db33d' },
   { label: 'SQL', value: 'sql', icon: '🗃️', color: '#fca311' },
-  // { label: 'Python', value: 'python', icon: '🐍', color: '#3776ab' },
-  // { label: 'Django', value: 'django', icon: '🕸️', color: '#092e20' },
   { label: 'Linux', value: 'linux', icon: '🐧', color: '#3a0ca3' },
   { label: 'DevOps', value: 'devops', icon: '🔧', color: '#f72585' },
   { label: 'HTML', value: 'html', icon: '🌐', color: '#e34c26' },
   { label: 'CSS', value: 'css', icon: '🎨', color: '#2965f1' },
-  // { label: 'Bootstrap', value: 'bootstrap', icon: '🅱️', color: '#7952b3' },
-  // { label: 'Git & GitHub', value: 'git', icon: '🔗', color: '#f1502f' },
-  // { label: 'Data Structures', value: 'dsa', icon: '🧠', color: '#6a4c93' },
-  // { label: 'Algorithms', value: 'algorithms', icon: '⚙️', color: '#ff6b6b' },
-  // { label: 'Operating Systems', value: 'os', icon: '🖥️', color: '#2ec4b6' },
   { label: 'Networking', value: 'networking', icon: '🌐', color: '#ff9f1c' },
-  // { label: 'System Design', value: 'systemdesign', icon: '🧩', color: '#8338ec' },
 ];
 
 const Home = () => {
@@ -42,7 +30,6 @@ const Home = () => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -50,13 +37,8 @@ const Home = () => {
   useEffect(() => {
     const storedName = sessionStorage.getItem('username');
     const storedResult = sessionStorage.getItem('lastResult');
-
-    if (storedName) {
-      setUsername(storedName);
-    }
-    if (storedResult) {
-      setLastResult(JSON.parse(storedResult));
-    }
+    if (storedName) setUsername(storedName);
+    if (storedResult) setLastResult(JSON.parse(storedResult));
   }, []);
 
   useEffect(() => {
@@ -78,12 +60,9 @@ const Home = () => {
   if (!username) {
     return (
       <div className="welcome-screen">
-        {/* Background Video with Fallback Image */}
+        {/* SVG Background */}
         <div className="background-media">
-          {/* <video autoPlay loop muted playsInline className="bg-video">
-            <source src={codingVideo} type="video/mp4" />
-            <img src={codingBgImage} alt="Coding Background" className="bg-fallback" />
-          </video> */}
+          <img src={backgroundSVG} alt="Background SVG" className="bg-svg" />
           <div className="bg-overlay"></div>
         </div>
 
@@ -95,7 +74,7 @@ const Home = () => {
             </div>
             <h2 className="welcome-title">Test Your Coding Knowledge</h2>
             <p className="welcome-subtitle">Enter your name to begin</p>
-            
+
             <div className="input-group">
               <input
                 type="text"
@@ -107,7 +86,7 @@ const Home = () => {
               />
               <div className="input-border"></div>
             </div>
-            
+
             <button
               onClick={handleStart}
               disabled={inputName.trim().length < 2}
@@ -123,12 +102,12 @@ const Home = () => {
 
   return (
     <div className="quiz-app-container">
-      {/* Background Video with Fallback Image */}
+      {/* 🎥 Background Video */}
       <div className="background-media">
-        {/* <video autoPlay loop muted playsInline className="bg-video">
+        <video autoPlay loop muted playsInline className="bg-video">
           <source src={codingVideo} type="video/mp4" />
-          <img src={codingBgImage} alt="Coding Background" className="bg-fallback" />
-        </video> */}
+          Your browser does not support the video tag.
+        </video>
         <div className="bg-overlay"></div>
       </div>
 
@@ -144,7 +123,7 @@ const Home = () => {
         </header>
 
         {lastResult && (
-          <div 
+          <div
             className="result-card"
             onMouseEnter={() => !isMobile && setIsHovering('result')}
             onMouseLeave={() => !isMobile && setIsHovering(null)}
@@ -180,10 +159,10 @@ const Home = () => {
         )}
 
         <h2 className="subject-title">Choose a Quiz Category</h2>
-        
+
         <div className="subject-grid">
           {subjects.map(({ label, value, icon, color }) => (
-            <div 
+            <div
               key={value}
               className="subject-card"
               onClick={() => navigate(`/quiz/${value}`)}
@@ -191,8 +170,8 @@ const Home = () => {
               onMouseLeave={() => !isMobile && setIsHovering(null)}
               style={{
                 transform: isHovering === value ? 'scale(1.05)' : 'scale(1)',
-                boxShadow: isHovering === value ? 
-                  `0 10px 25px ${color}40` : 
+                boxShadow: isHovering === value ?
+                  `0 10px 25px ${color}40` :
                   '0 5px 15px rgba(0, 0, 0, 0.1)',
                 borderTop: `4px solid ${color}`
               }}
